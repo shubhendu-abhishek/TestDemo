@@ -10,6 +10,7 @@ import fs from 'fs/promises';
 import mongoose from 'mongoose';
 const app = express();
 import { MongoClient } from 'mongodb';
+import axios from 'axios';
 const myEmmiter = new eventEmitter();
 import csv from 'csv-parser';
 //const client = new MongoClient('mongodb://root:RX1664@142.93.221.6:27017/demo');
@@ -42,11 +43,20 @@ app.get('/populate',(req,res)=>{
 
 //        });
 
-async function readCsv(){
-    const csvFiles = await fetch('http://console.mbwebportal.com/deepak/csvdata.csv')
+// async function readCsv(){
+//     const csvFiles = await fetch('http://console.mbwebportal.com/deepak/csvdata.csv')
 
-}
-readCsv();
+// }
+// readCsv();
+     axios.all([
+        axios.get('https://jsonplaceholder.typicode.com/comments'),
+        axios.get('http://console.mbwebportal.com/deepak/csvdata.csv')
+      ]).then(axios.spread((response1, response2) => {
+        console.log(response1);
+        console.log(response2);
+      })).catch(error => {
+        console.log(error);
+      });
     
  
 })
